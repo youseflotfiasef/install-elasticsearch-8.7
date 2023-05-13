@@ -2,14 +2,18 @@
 ##install elasticsearch-8.7.0 with kibana and logstash  
 Install elasticsearch 8.7.0  on ubuntu 20.04:
 1- download form link below 
-    $ wget -c https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.7.0-amd64.deb
+   $ wget -c https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.7.0-amd64.deb
 Notes: 
 wget -c  when problem internet with switch -c to continue 
 
 2- next step  download and  install dpkg 
+```
 $ dpkg -i elasticsearch-8.7.0-amd64.deb
+```
 3- after that  install go to path /etc/elasticsearch 
+```
 $ vim /etc/elasticsearch/elasticsearch.yml
+```
 #
 ```
 cluster.name: xon
@@ -83,7 +87,8 @@ For crack ealsticsearch  you copy file *.jar to directory xpack such as below
     $ cp x-pack-core-8.7.0.jar /usr/share/elasticsearch/modules/x-pack-core/x-pack-core-8.7.0.jar 
 7- finally add rule in iptable 
     $ vim /etc/iptables/rules.v4
-8-  in step name is security step and set password 
+8-  in step name is security step and set password
+```
      $  /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic 
      $  /usr/share/elasticsearch/bin/elasticsearch-certutil ca
      $  locate elastic-stack-ca.p12
@@ -95,27 +100,35 @@ For crack ealsticsearch  you copy file *.jar to directory xpack such as below
      $  cat /usr/share/elasticsearch/elastic-certificates.p12
      $ cp /usr/share/elasticsearch/elastic-certificates.p12 /home/users/
      $ chmod 777 elastic-certificates.p12
-
+```
 9- The finally start and test install elasticsearch 
+```
      $ systemctl daemon-reload 
      $ systemctl enable –now  elasticsearch
      $ systemctl status elasticsearch 
      $ tail -n 200 /opt/elasticsearch/log/elasticsearch.log
      $ netstat -npl | grep 9200
      $ curl -XGET "http://127.0.0.1:9200/_cat/nodes?v"
-
-10- install kibana 
+```
+10- install kibana
+```
     $ wget -c https://artifacts.elastic.co/downloads/kibana/kibana-8.7.1-amd64.deb
+```
 11- Add for kibana: 
+```
      $  /usr/share/elasticsearch/bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password
      $  /usr/share/elasticsearch/bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password
-12- Create keystore: 
+```
+12- Create keystore:
+```
      $  /usr/share/kibana/bin/kibana-keystore create
      $  /usr/share/kibana/bin/kibana-keystore add elasticsearch.password
+```
 13- Create password kibana at elasticsearch:
+```
      $  /usr/share/elasticsearch/bin/elasticsearch-reset-password -i  -u kibana_system
      $  systemctl enable –now kibana 
      $   systemctl status kibana
      $  tail -n 200 /var/log/kibana/kibana.log
-
+```
 
